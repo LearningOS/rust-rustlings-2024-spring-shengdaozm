@@ -5,10 +5,12 @@
 // Execute `rustlings hint enums3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 enum Message {
     // TODO: implement the message variant types based on their usage below
+    ChangeColor(u8, u8, u8),
+    Echo(String),
+    Move(Point),
+    Quit,
 }
 
 struct Point {
@@ -20,9 +22,10 @@ struct State {
     color: (u8, u8, u8),
     position: Point,
     quit: bool,
-    message: String
+    message: String,
 }
 
+//初始化接口
 impl State {
     fn change_color(&mut self, color: (u8, u8, u8)) {
         self.color = color;
@@ -32,7 +35,9 @@ impl State {
         self.quit = true;
     }
 
-    fn echo(&mut self, s: String) { self.message = s }
+    fn echo(&mut self, s: String) {
+        self.message = s
+    }
 
     fn move_position(&mut self, p: Point) {
         self.position = p;
@@ -43,6 +48,23 @@ impl State {
         // variants
         // Remember: When passing a tuple as a function argument, you'll need
         // extra parentheses: fn function((t, u, p, l, e))
+        // 考察enum的匹配用法，用来初始化State的结构体
+        // remark
+        // ：这个题目的耗时比较长，主要是变量的赋值问题没有搞明白，其实变量类型不匹配，也让我邮电困惑
+        match message {
+            Message::ChangeColor(a, b, c) => {
+                self.change_color((a, b, c));
+            }
+            Message::Echo(str) => {
+                self.echo(str);
+            }
+            Message::Move(point) => {
+                self.move_position(point);
+            }
+            Message::Quit => {
+                self.quit();
+            }
+        }
     }
 }
 
