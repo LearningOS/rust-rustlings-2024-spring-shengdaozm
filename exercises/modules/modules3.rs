@@ -8,10 +8,10 @@
 // Execute `rustlings hint modules3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
+// 考察引用标准库函数，使用合并的一行的写法
+// SystemTime位于std的time里面,UNIX_EPOCH也在std的time里面
 // TODO: Complete this use statement
-use ???
+use std::time::{SystemTime, UNIX_EPOCH};
 
 fn main() {
     match SystemTime::now().duration_since(UNIX_EPOCH) {
