@@ -16,17 +16,35 @@
 //
 // Execute `rustlings hint quiz3` or use the `hint` watch subcommand for a hint.
 
+// yeah,I understand,make the grade type generic,so that it can be either numeric or alphabetic,and then ,def a trait to format the grade type
 
-pub struct ReportCard {
-    pub grade: f32,
+pub struct ReportCard <T: DisplayGrade>{
+    pub grade: T,
     pub student_name: String,
     pub student_age: u8,
 }
+pub trait DisplayGrade{
+    fn format(&self)->String;
+}
 
-impl ReportCard {
+impl DisplayGrade for f32{
+    fn format(&self)->String{
+        self.to_string()
+    }
+}
+
+impl DisplayGrade for String{
+    fn format(&self)->String{
+        self.to_string()
+    }
+}
+
+impl <T:DisplayGrade> ReportCard <T>{
     pub fn print(&self) -> String {
-        format!("{} ({}) - achieved a grade of {}",
-            &self.student_name, &self.student_age, &self.grade)
+        format!(
+            "{} ({}) - achieved a grade of {}",
+            &self.student_name, &self.student_age, &self.grade.format()
+        )
     }
 }
 
@@ -51,7 +69,7 @@ mod tests {
     fn generate_alphabetic_report_card() {
         // TODO: Make sure to change the grade here after you finish the exercise.
         let report_card = ReportCard {
-            grade: 2.1,
+            grade: "A+".to_string(),
             student_name: "Gary Plotter".to_string(),
             student_age: 11,
         };

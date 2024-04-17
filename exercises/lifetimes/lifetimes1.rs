@@ -8,9 +8,10 @@
 // Execute `rustlings hint lifetimes1` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+//引用泛型来确定生命周期
+//在参数上加入相同的生命周期来进行限制
 
-fn longest(x: &str, y: &str) -> &str {
+fn longest <'a>(x: &'a str, y: &'a str) -> &'a str {
     if x.len() > y.len() {
         x
     } else {

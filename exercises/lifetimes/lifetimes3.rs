@@ -5,8 +5,8 @@
 // Execute `rustlings hint lifetimes3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
+// no need to use lifetimes here
 struct Book {
     author: &str,
     title: &str,
