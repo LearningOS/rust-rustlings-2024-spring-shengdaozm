@@ -7,7 +7,7 @@
 // The short string after the `extern` keyword indicates which ABI the externally imported
 // function would follow. In this exercise, "Rust" is used, while other variants exists like
 // "C" for standard C ABI, "stdcall" for the Windows ABI.
-//
+// NOTE: ABI => API??
 // The externally imported functions are declared in the extern blocks, with a semicolon to
 // mark the end of signature instead of curly braces. Some attributes can be applied to those
 // function declarations to modify the linking behavior, such as #[link_name = ".."] to
@@ -27,16 +27,14 @@
 //
 // You should NOT modify any existing code except for adding two lines of attributes.
 
-// I AM NOT DONE
-
 extern "Rust" {
     fn my_demo_function(a: u32) -> u32;
     fn my_demo_function_alias(a: u32) -> u32;
 }
 
-mod Foo {
+mod foo {
     // No `extern` equals `extern "Rust"`.
-    fn my_demo_function(a: u32) -> u32 {
+    pub fn my_demo_function(a: u32) -> u32 {
         a
     }
 }

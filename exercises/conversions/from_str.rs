@@ -31,18 +31,9 @@ enum ParsePersonError {
     ParseInt(ParseIntError),
 }
 
-// I AM NOT DONE
 
 // Steps:
-// 1. If the length of the provided string is 0, an error should be returned
-// 2. Split the given string on the commas present in it
-// 3. Only 2 elements should be returned from the split, otherwise return an
-//    error
-// 4. Extract the first element from the split operation and use it as the name
-// 5. Extract the other element from the split operation and parse it into a
-//    `usize` as the age with something like `"4".parse::<usize>()`
-// 6. If while extracting the name and the age something goes wrong, an error
-//    should be returned
+
 // If everything goes well, then return a Result of a Person object
 //
 // As an aside: `Box<dyn Error>` implements `From<&'_ str>`. This means that if
@@ -52,6 +43,27 @@ enum ParsePersonError {
 impl FromStr for Person {
     type Err = ParsePersonError;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        // 1. If the length of the provided string is 0, an error should be returned
+        if s.is_empty() {
+            return Err(ParsePersonError::Empty);
+        }
+        // 2. Split the given string on the commas present in it
+        // 3. Only 2 elements should be returned from the split, otherwise return an error
+        let parts: Vec<&str> = s.split(',').collect();
+        if parts.len() != 2 {
+            return Err(ParsePersonError::BadLen);
+        }
+        //4. Extract the first element from the split operation and use it as the name
+        if parts[0].is_empty() {
+            return Err(ParsePersonError::NoName);
+        }
+        let name = parts[0].to_string();
+        // 5. Extract the other element from the split operation and parse it into a `usize` as the age with something like `"4".parse::<usize>()`
+        // 6. If while extracting the name and the age something goes wrong, an error should be returned
+        //map_err用来将错误转换为其他错误类型，这里是将ParseIntError转换为ParsePersonError
+        // remark：当age进行转换错误的时候，那么函数就会在？的错误处理下直接返回一个Err(ParsePersonError::ParseInt(_))，而不会继续执行下面的代码
+        let age = parts[1].parse::<usize>().map_err(ParsePersonError::ParseInt)?;
+        Ok(Person { name, age })
     }
 }
 

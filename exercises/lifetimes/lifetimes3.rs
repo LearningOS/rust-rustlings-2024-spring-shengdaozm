@@ -7,9 +7,9 @@
 
 
 // no need to use lifetimes here
-struct Book {
-    author: &str,
-    title: &str,
+struct Book <'a>{
+    author: &'a str,
+    title: &'a str,
 }
 
 fn main() {
