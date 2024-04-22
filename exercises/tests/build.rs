@@ -15,10 +15,11 @@ fn main() {
         timestamp
     );
     println!("cargo:{}", your_command);
-
+    std::env::set_var("TEST_FOO", timestamp.to_string());
     // In tests8, we should enable "pass" feature to make the
     // testcase return early. Fill in the command to tell
     // Cargo about that.
-    let your_command = "pass";
+    let your_command = "pass=1";
     println!("cargo:{}", your_command);
+    std::env::set_var("CARGO_FEATURE_PASS", "1");
 }
