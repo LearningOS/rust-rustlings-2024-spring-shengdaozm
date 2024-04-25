@@ -2,7 +2,6 @@
 	queue
 	This question requires you to use queues to implement the functionality of the stac
 */
-// I AM NOT DONE
 
 #[derive(Debug)]
 pub struct Queue<T> {
@@ -54,28 +53,38 @@ impl<T> Default for Queue<T> {
 
 pub struct myStack<T>
 {
-	//TODO
 	q1:Queue<T>,
 	q2:Queue<T>
 }
 impl<T> myStack<T> {
     pub fn new() -> Self {
         Self {
-			//TODO
 			q1:Queue::<T>::new(),
 			q2:Queue::<T>::new()
         }
     }
+    //pop的时侯，将len-1个数据全部从q1移到q2，然后将q1的最后一个元素pop出来，再将q2的数据移回q1
     pub fn push(&mut self, elem: T) {
-        //TODO
+        self.q1.enqueue(elem);
     }
     pub fn pop(&mut self) -> Result<T, &str> {
-        //TODO
-		Err("Stack is empty")
+        if self.q1.is_empty() {
+            return Err("Stack is empty");
+        }
+        while self.q1.size() > 1 {
+            let elem = self.q1.dequeue().unwrap();
+            self.q2.enqueue(elem);
+        }
+        let result = self.q1.dequeue().unwrap();
+        while !self.q2.is_empty() {
+            let elem = self.q2.dequeue().unwrap();
+            self.q1.enqueue(elem);
+        }
+        return Ok(result);
     }
+    
     pub fn is_empty(&self) -> bool {
-		//TODO
-        true
+        return self.q1.is_empty();
     }
 }
 

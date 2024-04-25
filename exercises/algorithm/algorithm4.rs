@@ -2,8 +2,8 @@
 	binary_search tree
 	This problem requires you to implement a basic interface for a binary tree
 */
-// I AM NOT DONE
-//use std::cmp::Ordering;
+
+use std::cmp::Ordering;
 use std::fmt::Debug;
 
 
@@ -49,43 +49,47 @@ where
 
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
-        if self.root.is_none() { //没有初始化，就直接返回了
+        if self.root.is_none() {
             self.root = Some(Box::new(TreeNode::new(value)));
             return;
         }
-        let mut loop_node=self.root; //取到树里面的节点
+
+        let mut current = self.root.as_mut().unwrap();
         loop {
-            if loop_node.is_none() {
-                loop_node = Some(Box::new(TreeNode::new(value)));
+            if value < current.value {
+                if current.left.is_none() {
+                    current.left = Some(Box::new(TreeNode::new(value)));
+                    break;
+                } else {
+                    current = current.left.as_mut().unwrap();
+                }
+            } else if value > current.value {
+                if current.right.is_none() {
+                    current.right = Some(Box::new(TreeNode::new(value)));
+                    break;
+                } else {
+                    current = current.right.as_mut().unwrap();
+                }
+            } else {
+                // Handle duplicate values
                 break;
-            }
-            if value < loop_node.unwrap().value {
-                loop_node = loop_node.unwrap().left;
-            } else if value > loop_node.unwrap().value {
-                loop_node = loop_node.unwrap().right;
             }
         }
     }
 
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
-        if self.root.is_none() { //空树
-            return false;
-        }
-        let mut loop_node = self.root; //取出节点，直接循环
-        loop {
-            if loop_node.is_none() { //当前节点是空的
-                return false;
-            }
-            if value == loop_node.unwrap().value {
-                return true;
-            }
-            if value < loop_node.unwrap().value {
-                loop_node = loop_node.unwrap().left;
-            } else if value > loop_node.unwrap().value {
-                loop_node = loop_node.unwrap().right;
+        let mut current = self.root.as_ref();
+        while let Some(node) = current {
+            if value < node.value {
+                current = node.left.as_ref();
+            } else if value > node.value {
+                current = node.right.as_ref();
+            } else {
+                    return true;
             }
         }
+        false
     }
 }
 
